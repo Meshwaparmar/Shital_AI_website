@@ -1,8 +1,9 @@
 import './globals.css';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import { Navbar } from '@/components/navbar/navbar';
 import { Footer } from '@/components/footer/footer';
+import { SITE_URL } from '@/lib/site';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -10,15 +11,8 @@ const inter = Inter({
   display: 'swap',
 });
 
-const SITE_URL = 'https://shitalai.com';
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-  },
-  themeColor: '#fcfcfc',
   title: {
     default: 'Shital AI LLP | Business Software & AI Solutions',
     template: '%s | Shital AI LLP',
@@ -76,6 +70,12 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#fcfcfc',
 };
 
 export default function RootLayout({

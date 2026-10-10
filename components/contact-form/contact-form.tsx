@@ -1,9 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -17,32 +16,8 @@ import {
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { INTERESTED_IN_OPTIONS, BUSINESS_TYPES } from '@/lib/content';
+import { contactFormSchema, type ContactFormValues } from '@/lib/contact';
 import { cn } from '@/lib/utils';
-
-const formSchema = z.object({
-  fullName: z
-    .string()
-    .min(2, 'Please enter your full name')
-    .max(100, 'Name is too long'),
-  company: z.string().max(200, 'Company name is too long').optional().or(z.literal('')),
-  email: z.string().email('Please enter a valid email address').optional().or(z.literal('')),
-  phone: z
-    .string()
-    .max(30, 'Phone number is too long')
-    .optional()
-    .or(z.literal('')),
-  businessType: z.string().min(1, 'Please select a business type'),
-  interestedIn: z.string().min(1, 'Please select what you are interested in'),
-  message: z
-    .string()
-    .min(10, 'Please tell us a bit more about your needs (at least 10 characters)')
-    .max(2000, 'Message is too long'),
-}).refine((data) => Boolean(data.email || data.phone), {
-  message: 'Please enter a business email or phone number',
-  path: ['email'],
-});
-
-type FormValues = z.infer<typeof formSchema>;
 
 type SubmitState = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -53,11 +28,11 @@ export function ContactForm() {
     register,
     handleSubmit,
     setValue,
-    watch,
+    control,
     reset,
     formState: { errors },
-  } = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+  } = useForm<ContactFormValues>({
+    resolver: zodResolver(contactFormSchema),
     defaultValues: {
       fullName: '',
       company: '',
@@ -66,30 +41,20 @@ export function ContactForm() {
       businessType: '',
       interestedIn: '',
       message: '',
+      website: '',
     },
   });
 
-  const businessType = watch('businessType');
-  const interestedIn = watch('interestedIn');
+  const businessType = useWatch({ control, name: 'businessType' });
+  const interestedIn = useWatch({ control, name: 'interestedIn' });
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (data: ContactFormValues) => {
     setSubmitState('submitting');
     try {
-      const body = new URLSearchParams({
-        'form-name': 'business-enquiry',
-        fullName: data.fullName,
-        company: data.company || '',
-        email: data.email || '',
-        phone: data.phone || '',
-        businessType: data.businessType,
-        interestedIn: data.interestedIn,
-        message: data.message,
-      });
-
-      const response = await fetch('/', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: body.toString(),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) throw new Error('Submission failed');
@@ -128,16 +93,16 @@ export function ContactForm() {
       onSubmit={handleSubmit(onSubmit)}
       name="business-enquiry"
       method="POST"
-      action="/contact"
-      data-netlify="true"
-      data-netlify-honeypot="bot-field"
+      action="/api/contact"
       noValidate
       className="rounded-xl border border-border/80 bg-white p-6 soft-shadow sm:p-8 lg:p-10"
       aria-label="Business enquiry form"
     >
-      <input type="hidden" name="form-name" value="business-enquiry" />
       <p className="hidden" aria-hidden="true">
-        <label>Do not fill this field<input name="bot-field" tabIndex={-1} autoComplete="off" /></label>
+        <label>
+          Do not fill this field
+          <input tabIndex={-1} autoComplete="off" {...register('website')} />
+        </label>
       </p>
       {submitState === 'error' && (
         <div

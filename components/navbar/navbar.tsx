@@ -23,8 +23,12 @@ export function Navbar() {
   }, []);
 
   useEffect(() => {
-    setMobileOpen(false);
-    setOpenDropdown(null);
+    const frame = window.requestAnimationFrame(() => {
+      setMobileOpen(false);
+      setOpenDropdown(null);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, [pathname]);
 
   useEffect(() => {

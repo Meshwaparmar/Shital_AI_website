@@ -1,6 +1,5 @@
 import type { MetadataRoute } from 'next';
-
-const SITE_URL = 'https://shitalai.com';
+import { SITE_URL } from '@/lib/site';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const pages = [

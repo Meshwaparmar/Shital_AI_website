@@ -1,3 +1,5 @@
+import { SITE_URL } from '@/lib/site';
+
 export function OrganizationJsonLd() {
   const data = {
     '@context': 'https://schema.org',
@@ -5,7 +7,7 @@ export function OrganizationJsonLd() {
     name: 'Shital AI LLP',
     description:
       'Shital AI LLP builds custom business software, AI solutions, and automation systems that help companies work smarter, operate efficiently, and grow.',
-    url: 'https://shitalai.com',
+    url: SITE_URL,
     areaServed: 'Global',
     knowsAbout: [
       'Business Software',
@@ -33,7 +35,7 @@ export function ServiceJsonLd() {
     provider: {
       '@type': 'Organization',
       name: 'Shital AI LLP',
-      url: 'https://shitalai.com',
+      url: SITE_URL,
     },
     description:
       'Custom business software, AI solutions, and business automation systems.',
