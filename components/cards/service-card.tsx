@@ -20,14 +20,15 @@ export function ServiceCard({
   const content = (
     <div
       className={cn(
-        'group relative flex h-full flex-col overflow-hidden rounded-xl border border-border/80 bg-white p-6 transition-all duration-300 hover:border-blue-400/60 hover:shadow-lg hover:shadow-navy-900/5 sm:p-7',
+        'section-story-card group relative flex h-full flex-col overflow-hidden rounded-xl border border-border/80 bg-white p-6 transition-all duration-300 hover:border-blue-400/60 hover:shadow-lg hover:shadow-navy-900/5 sm:p-7',
         className
       )}
     >
       {/* Icon */}
       <span className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-blue-400 transition-transform duration-500 group-hover:scale-x-100" aria-hidden="true" />
-      <div className="mb-7 flex h-11 w-11 items-center justify-center rounded-lg bg-navy-900 transition-colors duration-300 group-hover:bg-blue-700">
+      <div className="relative mb-7 flex h-11 w-11 items-center justify-center rounded-lg bg-navy-900 transition-colors duration-300 group-hover:bg-blue-700">
         <Icon className="h-5 w-5 text-white" strokeWidth={1.8} />
+        <span className="card-icon-orbit" aria-hidden="true" />
       </div>
 
       {/* Title */}

@@ -4,6 +4,7 @@ import { PageHero } from '@/components/hero/page-hero';
 import { SectionHeading } from '@/components/section-heading/section-heading';
 import { CTAButton } from '@/components/buttons/cta-button';
 import { IndustryCard } from '@/components/cards/industry-card';
+import { EditorialImage } from '@/components/visuals/editorial-image';
 import { INDUSTRIES } from '@/lib/content';
 
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default function IndustriesPage() {
     <>
       <PageHero
         eyebrow="Industries"
+        visual="industries"
         title="Solutions for Modern Businesses"
         description="We build technology solutions that fit the way different industries operate — from hospitality and retail to healthcare and enterprises."
       />
@@ -30,6 +32,16 @@ export default function IndustriesPage() {
       {/* Industry cards */}
       <section className="py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <Reveal className="mb-14">
+            <EditorialImage
+              src="/images/industries/operations-automation.webp"
+              alt="Organized shelving and material-flow equipment in a warehouse"
+              label="Operational systems"
+              credit="lim woojung"
+              creditUrl="https://unsplash.com/photos/empty-green-shelves-in-a-warehouse-with-signs-l3tPD02-thk"
+              disclosure="Illustrative operational environment — not a Shital AI LLP customer site."
+            />
+          </Reveal>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
             {INDUSTRIES.map((industry, i) => (
               <Reveal key={industry.name} delay={(i % 4) * 80}>

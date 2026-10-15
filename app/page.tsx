@@ -24,6 +24,7 @@ export default function HomePage() {
       <OrganizationJsonLd />
       <ServiceJsonLd />
       <HeroSection />
+      <HeroVisualSection />
       <ValueRail />
       <PossibilitySection />
       <SolutionsSection />
@@ -39,32 +40,56 @@ export default function HomePage() {
 
 function HeroSection() {
   return (
-    <section className="relative isolate overflow-hidden border-b border-border/70 bg-light-mesh pb-20 pt-32 sm:pt-40 lg:pb-28 lg:pt-48">
-      <div className="section-shell">
+    <section className="hero-video-section relative isolate flex min-h-[680px] min-h-[100svh] items-center overflow-hidden border-b border-white/10 bg-navy-950 pb-16 pt-28 sm:min-h-[740px] sm:pt-32 lg:pt-36">
+      <div className="hero-video-fallback pointer-events-none absolute inset-0 z-0" aria-hidden="true" />
+      <video
+        className="hero-background-video pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-[58%_center] opacity-90 sm:object-center"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        aria-hidden="true"
+        tabIndex={-1}
+      >
+        <source src="/videos/shital-ai-data-flow.mp4" type="video/mp4" />
+      </video>
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(112deg,rgba(9,12,28,0.88)_0%,rgba(13,19,42,0.68)_50%,rgba(9,12,28,0.82)_100%)]" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(circle_at_72%_24%,rgba(115,177,255,0.22),transparent_45%)]" aria-hidden="true" />
+      <div className="section-shell relative z-10 w-full">
         <div className="mx-auto max-w-5xl text-center">
           <Reveal>
             <div className="flex flex-col items-center">
               <span className="eyebrow">Business software · AI · automation</span>
-              <h1 className="display-title mt-7 max-w-5xl text-balance text-5xl leading-[0.94] text-navy-900 sm:text-7xl lg:text-[6.6rem]">
-                Make your business <span className="gradient-text">work smarter.</span>
+              <h1 className="display-title mt-7 max-w-5xl text-balance text-5xl leading-[0.94] text-white sm:text-7xl lg:text-[6.6rem]">
+                Make Your Business <span className="text-blue-200">Work Smarter.</span>
               </h1>
-              <p className="mt-7 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-xl">
-                We build intelligent software and AI solutions that help businesses simplify operations, automate repetitive work, and create better ways to grow.
+              <p className="mt-7 max-w-2xl text-pretty text-base leading-relaxed text-blue-50/90 sm:text-xl">
+                We build intelligent software and AI solutions that help businesses automate operations, simplify workflows, and grow faster.
               </p>
               <div className="mt-9 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-                <CTAButton href="/contact" variant="primary" showArrow>Get a Business Solution</CTAButton>
-                <CTAButton href="/solutions" variant="secondary" showArrow>Explore Our Solutions</CTAButton>
+                <CTAButton href="/solutions" variant="light" showArrow>Explore Our Solutions</CTAButton>
+                <CTAButton href="/contact" variant="light-outline" showArrow>Contact Us</CTAButton>
               </div>
-              <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-3 text-xs text-navy-600">
+              <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-3 text-xs text-blue-50/90">
                 {['Built around real workflows', 'AI where it creates value', 'Designed to evolve'].map((item) => (
-                  <span key={item} className="flex items-center gap-2"><Check className="h-3.5 w-3.5 shrink-0 text-blue-700" />{item}</span>
+                  <span key={item} className="flex items-center gap-2"><Check className="h-3.5 w-3.5 shrink-0 text-blue-300" />{item}</span>
                 ))}
               </div>
             </div>
           </Reveal>
 
         </div>
-        <Reveal delay={120} direction="scale" className="mt-14 lg:mt-20"><HeroVisual /></Reveal>
+      </div>
+    </section>
+  );
+}
+
+function HeroVisualSection() {
+  return (
+    <section className="border-b border-border/70 bg-light-mesh py-16 sm:py-20 lg:py-24" aria-label="How Shital AI solutions work together">
+      <div className="section-shell">
+        <Reveal direction="scale"><HeroVisual /></Reveal>
       </div>
     </section>
   );

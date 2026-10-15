@@ -3,6 +3,7 @@ import { Reveal } from '@/components/animations/reveal';
 import { PageHero } from '@/components/hero/page-hero';
 import { SectionHeading } from '@/components/section-heading/section-heading';
 import { CTAButton } from '@/components/buttons/cta-button';
+import { EditorialImage } from '@/components/visuals/editorial-image';
 import { AI_SERVICES } from '@/lib/content';
 
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default function AIServicesPage() {
     <>
       <PageHero
         eyebrow="AI Services"
+        visual="ai"
         title="Turn AI Into a Business Advantage"
         description="Practical AI solutions that solve real business problems — from automation and chatbots to machine learning and computer vision."
         light
@@ -31,10 +33,20 @@ export default function AIServicesPage() {
       {/* Detailed AI services */}
       <section className="py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <Reveal className="mb-14">
+            <EditorialImage
+              src="/images/services/ai-infrastructure.webp"
+              alt="Server racks inside a modern data center"
+              label="AI infrastructure"
+              credit="imgix"
+              creditUrl="https://unsplash.com/photos/server-racks-in-data-center-klWUhr-wPJ8"
+              disclosure="Conceptual infrastructure photography — not Shital AI LLP infrastructure."
+            />
+          </Reveal>
           <div className="divide-y divide-border border-y border-border">
             {AI_SERVICES.map((service, i) => (
               <Reveal key={service.title} delay={i * 50}>
-                <div className="grid grid-cols-1 gap-7 py-9 sm:px-3 lg:grid-cols-12 lg:gap-12 lg:py-12">
+                <div className="ai-service-row relative grid grid-cols-1 gap-7 overflow-hidden py-9 sm:px-3 lg:grid-cols-12 lg:gap-12 lg:px-6 lg:py-12">
                   {/* Left: icon + title */}
                   <div className="lg:col-span-4">
                     <div className="flex items-center gap-3">

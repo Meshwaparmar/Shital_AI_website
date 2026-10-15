@@ -15,14 +15,29 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { INTERESTED_IN_OPTIONS, BUSINESS_TYPES } from '@/lib/content';
-import { contactFormSchema, type ContactFormValues } from '@/lib/contact';
+import {
+  contactFormSchema,
+  PROJECT_BUDGET_OPTIONS,
+  type ContactFormValues,
+} from '@/lib/contact';
 import { cn } from '@/lib/utils';
 
 type SubmitState = 'idle' | 'submitting' | 'success' | 'error';
 
+function responseErrorMessage(value: unknown) {
+  if (value && typeof value === 'object' && 'error' in value) {
+    const message = (value as { error?: unknown }).error;
+    if (typeof message === 'string' && message.trim()) return message;
+  }
+
+  return 'We couldn\'t send your enquiry right now. Please try again later.';
+}
+
 export function ContactForm() {
   const [submitState, setSubmitState] = useState<SubmitState>('idle');
+  const [submitError, setSubmitError] = useState('');
 
   const {
     register,
@@ -38,18 +53,26 @@ export function ContactForm() {
       company: '',
       email: '',
       phone: '',
+      subject: '',
       businessType: '',
       interestedIn: '',
+      projectBudget: '',
       message: '',
+      consent: false,
       website: '',
     },
   });
 
   const businessType = useWatch({ control, name: 'businessType' });
   const interestedIn = useWatch({ control, name: 'interestedIn' });
+  const projectBudget = useWatch({ control, name: 'projectBudget' });
+  const consent = useWatch({ control, name: 'consent' });
 
   const onSubmit = async (data: ContactFormValues) => {
+    if (submitState === 'submitting') return;
+
     setSubmitState('submitting');
+    setSubmitError('');
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
@@ -57,10 +80,19 @@ export function ContactForm() {
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) throw new Error('Submission failed');
+      const responseBody: unknown = await response.json().catch(() => null);
+      if (!response.ok || !responseBody || typeof responseBody !== 'object' || !('ok' in responseBody) || responseBody.ok !== true) {
+        throw new Error(responseErrorMessage(responseBody));
+      }
+
       setSubmitState('success');
       reset();
-    } catch {
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : 'We couldn\'t send your enquiry right now. Please try again later.'
+      );
       setSubmitState('error');
     }
   };
@@ -115,8 +147,7 @@ export function ContactForm() {
               Something went wrong
             </p>
             <p className="mt-0.5 text-sm text-red-700">
-              We couldn&apos;t send your enquiry right now. Please try again
-              later.
+              {submitError}
             </p>
           </div>
         </div>
@@ -156,6 +187,7 @@ export function ContactForm() {
         <FormField
           id="email"
           label="Business Email"
+          required
           error={errors.email?.message}
         >
           <Input
@@ -171,13 +203,15 @@ export function ContactForm() {
         {/* Phone */}
         <FormField
           id="phone"
-          label="Phone"
+          label="Phone with Country Code"
+          required
           error={errors.phone?.message}
         >
           <Input
             id="phone"
             type="tel"
-            placeholder="Your phone number"
+            placeholder="+91 98765 43210"
+            inputMode="tel"
             {...register('phone')}
           />
         </FormField>
@@ -213,7 +247,7 @@ export function ContactForm() {
         {/* Interested In */}
         <FormField
           id="interestedIn"
-          label="Interested In"
+          label="Service or Solution Required"
           required
           error={errors.interestedIn?.message}
         >
@@ -237,6 +271,53 @@ export function ContactForm() {
             </SelectContent>
           </Select>
         </FormField>
+
+        <FormField
+          id="projectBudget"
+          label="Project Budget"
+          error={errors.projectBudget?.message}
+        >
+          <Select
+            value={projectBudget}
+            onValueChange={(val) =>
+              setValue('projectBudget', val as (typeof PROJECT_BUDGET_OPTIONS)[number], {
+                shouldValidate: true,
+              })
+            }
+          >
+            <SelectTrigger
+              id="projectBudget"
+              aria-invalid={!!errors.projectBudget}
+              className="w-full"
+            >
+              <SelectValue placeholder="Select an optional budget range" />
+            </SelectTrigger>
+            <SelectContent>
+              {PROJECT_BUDGET_OPTIONS.map((option) => (
+                <SelectItem key={option} value={option}>
+                  {option}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </FormField>
+
+        {/* Subject */}
+        <div className="sm:col-span-2">
+          <FormField
+            id="subject"
+            label="Subject"
+            error={errors.subject?.message}
+          >
+            <Input
+              id="subject"
+              placeholder="What would you like to discuss?"
+              aria-invalid={!!errors.subject}
+              aria-describedby={errors.subject ? 'subject-error' : undefined}
+              {...register('subject')}
+            />
+          </FormField>
+        </div>
       </div>
 
       {/* Message */}
@@ -256,6 +337,30 @@ export function ContactForm() {
             {...register('message')}
           />
         </FormField>
+      </div>
+
+      <div className="mt-5">
+        <div className="flex items-start gap-3">
+          <Checkbox
+            id="consent"
+            checked={consent}
+            onCheckedChange={(checked) =>
+              setValue('consent', checked === true, { shouldValidate: true })
+            }
+            aria-invalid={!!errors.consent}
+            aria-describedby={errors.consent ? 'consent-error' : undefined}
+            className="mt-0.5"
+          />
+          <Label htmlFor="consent" className="cursor-pointer text-sm leading-relaxed text-navy-700">
+            I agree that Shital AI LLP may contact me about this enquiry.
+            <span className="ml-0.5 text-red-500">*</span>
+          </Label>
+        </div>
+        {errors.consent && (
+          <p id="consent-error" className="mt-2 text-xs font-medium text-red-600" role="alert">
+            {errors.consent.message}
+          </p>
+        )}
       </div>
 
       {/* Submit */}

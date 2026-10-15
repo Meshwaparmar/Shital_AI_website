@@ -10,10 +10,9 @@ interface LogoProps {
 }
 
 export function Logo({
-  variant = 'dark',
   className,
-  width = 116,
-  height = 44,
+  width = 150,
+  height = 52,
 }: LogoProps) {
   return (
     <div
@@ -21,12 +20,12 @@ export function Logo({
       style={{ width, height }}
     >
       <Image
-        src="/images/brand/Company_logo_transparent.png"
+        src="/images/brand/company_new_logo_transparent.png"
         alt="Shital AI LLP"
         fill
         priority
         sizes={`${width}px`}
-        className={cn('object-contain object-center', variant === 'dark' && 'brightness-0')}
+        className="object-cover object-center"
       />
     </div>
   );
@@ -46,7 +45,7 @@ export function LogoMark({
       style={{ width: size, height: size }}
     >
       <Image
-        src="/images/brand/Company_logo_transparent.png"
+        src="/images/brand/company_new_logo_transparent.png"
         alt="Shital AI LLP"
         fill
         sizes={`${size}px`}

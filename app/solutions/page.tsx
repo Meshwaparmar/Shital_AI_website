@@ -3,6 +3,7 @@ import { Reveal } from '@/components/animations/reveal';
 import { PageHero } from '@/components/hero/page-hero';
 import { SectionHeading } from '@/components/section-heading/section-heading';
 import { CTAButton } from '@/components/buttons/cta-button';
+import { EditorialImage } from '@/components/visuals/editorial-image';
 import { SOLUTION_CATEGORIES, WHAT_WE_DO, AUTOMATION_EXAMPLES } from '@/lib/content';
 
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default function SolutionsPage() {
     <>
       <PageHero
         eyebrow="Solutions"
+        visual="solutions"
         title="Solutions for Every Business Need"
         description="Whether you want to improve operations, automate repetitive work, or build something entirely new — we have a solution that fits."
       />
@@ -30,10 +32,21 @@ export default function SolutionsPage() {
       {/* Solution categories */}
       <section className="py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <Reveal className="mb-14">
+            <EditorialImage
+              src="/images/solutions/workflow-planning.webp"
+              alt="A business team discussing a workflow at a whiteboard"
+              label="Workflow planning"
+              credit="Vitaly Gariev"
+              creditUrl="https://unsplash.com/photos/team-collaborating-around-a-whiteboard-in-a-modern-office-K0aM-ztA76Q"
+              disclosure="Illustrative planning session — not Shital AI LLP staff or a client engagement."
+              objectPosition="center 44%"
+            />
+          </Reveal>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
             {SOLUTION_CATEGORIES.map((category, i) => (
               <Reveal key={category.title} delay={(i % 2) * 100}>
-                <div className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-border/80 bg-white p-7 transition-all duration-300 hover:border-blue-400/50 hover:shadow-2xl hover:shadow-navy-900/10 hover:-translate-y-1">
+                <div className="section-story-card group relative flex h-full flex-col overflow-hidden rounded-xl border border-border/80 bg-white p-7 transition-all duration-300 hover:border-blue-400/50 hover:shadow-2xl hover:shadow-navy-900/10 hover:-translate-y-1">
                   <span className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-blue-400 transition-transform group-hover:scale-x-100" aria-hidden="true" />
                   <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-50 transition-colors group-hover:bg-blue-100">
                     <category.icon className="h-6 w-6 text-blue-600" strokeWidth={1.8} />

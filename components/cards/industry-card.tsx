@@ -17,12 +17,13 @@ export function IndustryCard({
   return (
     <div
       className={cn(
-        'group flex h-full flex-col border-l border-border/80 bg-transparent px-5 py-3 transition-colors duration-300 hover:border-blue-500',
+        'industry-story-card group relative flex h-full flex-col overflow-hidden border-l border-border/80 bg-transparent px-5 py-3 transition-colors duration-300 hover:border-blue-500',
         className
       )}
     >
-      <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 transition-colors duration-300 group-hover:bg-blue-100">
+      <div className="relative mb-5 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 transition-colors duration-300 group-hover:bg-blue-100">
         <Icon className="h-5 w-5 text-blue-600" strokeWidth={1.8} />
+        <span className="industry-card-pulse" aria-hidden="true" />
       </div>
       <h3 className="text-base font-semibold text-navy-800">{name}</h3>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">

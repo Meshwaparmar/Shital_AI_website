@@ -21,6 +21,7 @@ export default function ContactPage() {
     <>
       <PageHero
         eyebrow="Contact"
+        visual="contact"
         title="What Could We Build for Your Business?"
         description="Tell us what you want to improve, automate, or create. Let’s explore the right solution together."
       />

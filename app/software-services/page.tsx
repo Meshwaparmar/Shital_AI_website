@@ -3,6 +3,7 @@ import { Reveal } from '@/components/animations/reveal';
 import { PageHero } from '@/components/hero/page-hero';
 import { SectionHeading } from '@/components/section-heading/section-heading';
 import { CTAButton } from '@/components/buttons/cta-button';
+import { EditorialImage } from '@/components/visuals/editorial-image';
 import { SOFTWARE_SERVICES } from '@/lib/content';
 
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default function SoftwareServicesPage() {
     <>
       <PageHero
         eyebrow="Software Services"
+        visual="software"
         title="Software That Works the Way Your Business Works"
         description="From custom business software to web applications, dashboards, and APIs — every solution is built around your operations and business goals."
       />
@@ -30,10 +32,21 @@ export default function SoftwareServicesPage() {
       {/* Software services grid */}
       <section className="py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <Reveal className="mb-14">
+            <EditorialImage
+              src="/images/services/software-workspace.webp"
+              alt="A software development workspace with code displayed across monitors"
+              label="Software engineering"
+              credit="Jakub Żerdzicki"
+              creditUrl="https://unsplash.com/photos/screens-display-coding-text-representing-programming-work-gCyjEr-g2oI"
+              disclosure="Illustrative development workspace — not a Shital AI LLP product interface."
+              objectPosition="center 48%"
+            />
+          </Reveal>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
             {SOFTWARE_SERVICES.map((service, i) => (
               <Reveal key={service.title} delay={(i % 3) * 80}>
-                <div className="group flex h-full flex-col rounded-xl border border-border/80 bg-white p-6 transition-all duration-300 hover:border-blue-400/50 hover:shadow-xl hover:shadow-navy-900/10 hover:-translate-y-1">
+                <div className="section-story-card group relative flex h-full flex-col overflow-hidden rounded-xl border border-border/80 bg-white p-6 transition-all duration-300 hover:border-blue-400/50 hover:shadow-xl hover:shadow-navy-900/10 hover:-translate-y-1">
                   <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-lg bg-navy-900 transition-colors group-hover:bg-blue-600">
                     <service.icon className="h-5 w-5 text-white" strokeWidth={1.8} />
                   </div>

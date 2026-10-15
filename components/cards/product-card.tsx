@@ -25,7 +25,7 @@ export function ProductCard({
     <Link
       href={href}
       className={cn(
-        'group flex h-full flex-col overflow-hidden rounded-xl border border-border/80 bg-white p-7 transition-all duration-300 hover:border-blue-400/60 hover:shadow-xl hover:shadow-navy-900/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
+        'product-story-card group relative flex h-full flex-col overflow-hidden rounded-xl border border-border/80 bg-white p-7 transition-all duration-300 hover:border-blue-400/60 hover:shadow-xl hover:shadow-navy-900/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
         className
       )}
     >
@@ -51,6 +51,10 @@ export function ProductCard({
       <p className="flex-1 text-sm leading-relaxed text-muted-foreground">
         {description}
       </p>
+
+      <div className="product-card-network" aria-hidden="true">
+        <span /><span /><span /><span /><i />
+      </div>
 
       {/* Channels */}
       <div className="mt-5">

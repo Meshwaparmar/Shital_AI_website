@@ -22,7 +22,7 @@ export function Footer() {
       <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
         <div className="grid gap-12 border-b border-border pb-12 lg:grid-cols-[1.35fr_0.65fr_0.65fr]">
           <div>
-            <Link href="/" className="inline-flex rounded-md"><Logo variant="dark" width={144} height={54} /></Link>
+            <Link href="/" className="inline-flex rounded-md"><Logo variant="dark" width={172} height={58} /></Link>
             <h2 className="mt-7 max-w-md text-balance text-2xl font-semibold tracking-[-0.03em] text-navy-900 sm:text-3xl">
               Technology shaped around the way your business works.
             </h2>

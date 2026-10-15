@@ -23,6 +23,7 @@ export default function ProductsPage() {
     <>
       <PageHero
         eyebrow="Products"
+        visual="products"
         title="Technology Products Built for Business"
         description="Shital AI LLP develops software products designed to solve practical business and technology challenges."
       />

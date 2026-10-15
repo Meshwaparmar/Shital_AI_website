@@ -47,14 +47,58 @@ import {
 export interface NavLink {
   label: string;
   href: string;
-  children?: { label: string; href: string; description?: string }[];
+  children?: NavChild[];
 }
+
+export interface NavChild {
+  label: string;
+  href: string;
+  description?: string;
+  badge?: string;
+  external?: boolean;
+  icon?: LucideIcon;
+}
+
+export const PROJECT_NAV_ITEMS: NavChild[] = [
+  {
+    label: 'Telyxan',
+    href: '/projects/telyxan',
+    description: 'Official business communication product',
+    badge: 'Official product',
+    icon: Send,
+  },
+  {
+    label: 'Hotel OS',
+    href: '/projects/hotel-os',
+    description: 'Hotel management software',
+    icon: Hotel,
+  },
+  {
+    label: 'Nirantar',
+    href: '/projects/nirantar',
+    description: 'Open-source project',
+    icon: Code2,
+  },
+  {
+    label: 'Voice Cloning',
+    href: '/projects/voice-cloning',
+    description: 'AI voice technology project',
+    icon: Brain,
+  },
+  {
+    label: 'E-book Generator',
+    href: '/projects/ebook-generator',
+    description: 'AI-powered content creation project',
+    icon: FileText,
+  },
+];
 
 export const NAV_LINKS: NavLink[] = [
   { label: 'Home', href: '/' },
   { label: 'Solutions', href: '/solutions' },
   { label: 'AI Services', href: '/ai-services' },
   { label: 'Software Services', href: '/software-services' },
+  { label: 'Projects', href: '/projects', children: PROJECT_NAV_ITEMS },
   {
     label: 'Products',
     href: '/products',
@@ -611,5 +655,82 @@ export const PRODUCTS: ProductSummary[] = [
     href: '/products/telyxan',
     channels: ['WhatsApp', 'SMS', 'Email', 'Telegram'],
     icon: Send,
+  },
+];
+
+export interface CompanyProject {
+  name: string;
+  slug?: string;
+  category: string;
+  description: string;
+  status: string;
+  tags: string[];
+  icon: LucideIcon;
+  href?: string;
+  cta?: string;
+  featured?: boolean;
+}
+
+export const COMPANY_PROJECTS: CompanyProject[] = [
+  {
+    name: 'Telyxan',
+    slug: 'telyxan',
+    category: 'Official Product / Business Communication Platform',
+    description:
+      'An official Shital AI LLP product that centralizes WhatsApp Business API, SMS, email, and Telegram communication for businesses.',
+    status: 'Live product',
+    tags: ['WhatsApp Business API', 'SMS', 'Email', 'Telegram'],
+    icon: Send,
+    href: 'https://www.telyxan.com/',
+    cta: 'Visit Telyxan',
+    featured: true,
+  },
+  {
+    name: 'Hotel OS',
+    slug: 'hotel-os',
+    category: 'Hotel Management Software',
+    description:
+      'A hotel operations and management software project. A public feature list, demo, and project destination are not configured in this repository.',
+    status: 'Project information pending verification',
+    tags: [],
+    icon: Hotel,
+    href: '/projects/hotel-os',
+    cta: 'Explore Project',
+  },
+  {
+    name: 'Nirantar',
+    slug: 'nirantar',
+    category: 'Open-Source Project',
+    description:
+      'An open-source Shital AI LLP project. Its public repository, purpose, technology stack, and current status are awaiting verification.',
+    status: 'Repository link pending verification',
+    tags: [],
+    icon: Code2,
+    href: '/projects/nirantar',
+    cta: 'View Project',
+  },
+  {
+    name: 'Voice Cloning',
+    slug: 'voice-cloning',
+    category: 'Artificial Intelligence / Voice Technology',
+    description:
+      'An AI-based voice technology project. The available project materials do not verify additional capabilities or a public project destination.',
+    status: 'Project information pending verification',
+    tags: [],
+    icon: Brain,
+    href: '/projects/voice-cloning',
+    cta: 'View Project',
+  },
+  {
+    name: 'E-book Generator',
+    slug: 'ebook-generator',
+    category: 'Generative AI / Content Creation',
+    description:
+      'An AI-powered e-book creation project. Supported inputs, generation workflow, output formats, and a public destination are awaiting verification.',
+    status: 'Project information pending verification',
+    tags: [],
+    icon: FileText,
+    href: '/projects/ebook-generator',
+    cta: 'View Project',
   },
 ];

@@ -4,6 +4,7 @@ import { Reveal } from '@/components/animations/reveal';
 import { PageHero } from '@/components/hero/page-hero';
 import { SectionHeading } from '@/components/section-heading/section-heading';
 import { CTAButton } from '@/components/buttons/cta-button';
+import { EditorialImage } from '@/components/visuals/editorial-image';
 import {
   Briefcase,
   Target,
@@ -35,6 +36,7 @@ export default function AboutPage() {
     <>
       <PageHero
         eyebrow="About"
+        visual="about"
         title="Technology That Moves Businesses Forward"
         description="Shital AI LLP is a technology company focused on practical software, AI, and automation solutions that help businesses operate better and grow with confidence."
       />
@@ -64,6 +66,16 @@ export default function AboutPage() {
                   technology solutions built around the way your business
                   actually works.
                 </p>
+                <EditorialImage
+                  src="/images/about/team-collaboration.webp"
+                  alt="A team collaborating around two laptops in a modern office"
+                  label="Collaboration"
+                  credit="Fiqih Alfarish"
+                  creditUrl="https://unsplash.com/photos/team-collaborating-on-laptops-in-modern-office-N3Bf0ArT5J0"
+                  disclosure="Illustrative stock photography — not Shital AI LLP staff or office."
+                  className="mt-4"
+                  objectPosition="center 58%"
+                />
               </div>
             </Reveal>
 

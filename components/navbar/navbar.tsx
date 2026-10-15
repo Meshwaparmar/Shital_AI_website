@@ -81,14 +81,25 @@ export function Navbar() {
           </Link>
 
           <ul className="hidden items-center gap-0.5 lg:flex" ref={dropdownRef}>
-            {NAV_LINKS.map((link) => (
-              <li key={link.href} className="relative">
+            {NAV_LINKS.map((link) => {
+              const isProjectsMenu = link.href === '/projects';
+
+              return (
+              <li
+                key={link.href}
+                className="relative"
+                onMouseLeave={() => link.children && setOpenDropdown(null)}
+                onBlur={(event) => {
+                  if (!event.currentTarget.contains(event.relatedTarget as Node)) setOpenDropdown(null);
+                }}
+              >
                 {link.children ? (
                   <>
                     <button
                       type="button"
                       onClick={() => setOpenDropdown(openDropdown === link.href ? null : link.href)}
                       onMouseEnter={() => setOpenDropdown(link.href)}
+                      onFocus={() => setOpenDropdown(link.href)}
                       className={cn(
                         'flex min-h-11 items-center gap-1 rounded-lg px-3.5 py-2 text-[0.82rem] font-medium transition-colors',
                         isGroupActive(link) ? 'text-blue-700' : 'text-navy-600 hover:bg-secondary/70 hover:text-navy-900'
@@ -100,17 +111,50 @@ export function Navbar() {
                       <ChevronDown className={cn('h-3.5 w-3.5 transition-transform', openDropdown === link.href && 'rotate-180')} />
                     </button>
                     {openDropdown === link.href && (
-                      <div className="absolute left-0 top-full pt-2" onMouseLeave={() => setOpenDropdown(null)}>
-                        <div className="w-72 overflow-hidden rounded-xl border border-border/80 bg-white/95 p-2 shadow-2xl shadow-navy-900/10 backdrop-blur-xl">
-                          {link.children.map((child) => (
-                            <Link key={child.href} href={child.href} className="group flex items-center justify-between rounded-xl px-4 py-3 transition-colors hover:bg-blue-50">
-                              <span>
-                                <span className="block text-sm font-semibold text-navy-900">{child.label}</span>
-                                {child.description && <span className="mt-0.5 block text-xs text-muted-foreground">{child.description}</span>}
-                              </span>
-                              <ArrowUpRight className="h-4 w-4 text-blue-600 opacity-0 transition-opacity group-hover:opacity-100" />
+                      <div className="absolute left-0 top-full pt-2 animate-in fade-in-0 zoom-in-95 duration-200">
+                        <div className={cn('overflow-hidden rounded-xl border border-border/80 bg-white/95 p-2 shadow-2xl shadow-navy-900/10 backdrop-blur-xl', isProjectsMenu ? 'w-[34rem]' : 'w-72')}>
+                          <div className={cn(isProjectsMenu && 'grid grid-cols-2 gap-1')}>
+                            {link.children.map((child) => {
+                              if (!isProjectsMenu) {
+                                return (
+                                  <Link key={child.href} href={child.href} className="group flex items-center justify-between rounded-xl px-4 py-3 transition-colors hover:bg-blue-50">
+                                    <span>
+                                      <span className="block text-sm font-semibold text-navy-900">{child.label}</span>
+                                      {child.description && <span className="mt-0.5 block text-xs text-muted-foreground">{child.description}</span>}
+                                    </span>
+                                    <ArrowUpRight className="h-4 w-4 text-blue-600 opacity-0 transition-opacity group-hover:opacity-100" />
+                                  </Link>
+                                );
+                              }
+
+                              const Icon = child.icon;
+                              const content = (
+                                <>
+                                  {Icon && <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-navy-900 text-white transition-colors group-hover:bg-blue-700"><Icon className="h-4 w-4" strokeWidth={1.8} /></span>}
+                                  <span className="min-w-0 flex-1">
+                                    <span className="flex items-center gap-2">
+                                      <span className="block text-sm font-semibold text-navy-900">{child.label}</span>
+                                      {child.badge && <span className="rounded-full bg-orange-100 px-2 py-0.5 text-[0.55rem] font-bold uppercase tracking-wider text-orange-800">{child.badge}</span>}
+                                    </span>
+                                    {child.description && <span className="mt-0.5 block text-xs leading-relaxed text-muted-foreground">{child.description}</span>}
+                                  </span>
+                                  <ArrowUpRight className="h-4 w-4 shrink-0 text-blue-600 opacity-0 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100" />
+                                </>
+                              );
+                              const childClassName = 'group flex min-h-[4.75rem] items-center gap-3 rounded-xl px-3 py-3 transition-colors hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500';
+
+                              return child.external ? (
+                                <a key={child.href} href={child.href} target="_blank" rel="noreferrer" className={childClassName}>{content}</a>
+                              ) : (
+                                <Link key={child.href} href={child.href} className={childClassName}>{content}</Link>
+                              );
+                            })}
+                          </div>
+                          {isProjectsMenu && (
+                            <Link href="/projects" className="mt-1 flex items-center justify-between border-t border-border px-3 pb-2 pt-3 text-xs font-bold uppercase tracking-[0.14em] text-blue-700 hover:text-blue-900">
+                              View all projects <ArrowUpRight className="h-4 w-4" />
                             </Link>
-                          ))}
+                          )}
                         </div>
                       </div>
                     )}
@@ -121,7 +165,8 @@ export function Navbar() {
                   </Link>
                 )}
               </li>
-            ))}
+              );
+            })}
           </ul>
 
           <Link href="/contact" className="group hidden min-h-11 items-center gap-2 rounded-full bg-[linear-gradient(to_bottom,#3a3f5c_0%,#1e2033_100%)] px-5 py-2.5 text-sm font-semibold text-white transition-all hover:brightness-110 hover:shadow-lg hover:-translate-y-0.5 lg:inline-flex">
@@ -146,20 +191,42 @@ export function Navbar() {
           </div>
           <nav className="flex-1 overflow-y-auto p-5" aria-label="Mobile navigation">
             <ul className="flex flex-col gap-1">
-              {NAV_LINKS.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className={cn('flex min-h-12 items-center justify-between rounded-xl px-4 py-3 text-base font-medium', isActive(link.href) ? 'bg-blue-50 text-blue-700' : 'text-navy-700 hover:bg-secondary')}>
-                    {link.label}<ArrowUpRight className="h-4 w-4 opacity-50" />
-                  </Link>
-                  {link.children && (
-                    <ul className="ml-4 border-l border-border pl-3">
-                      {link.children.map((child) => (
-                        <li key={child.href}><Link href={child.href} className="flex min-h-11 items-center rounded-lg px-3 py-2 text-sm text-muted-foreground hover:text-navy-900">{child.label}</Link></li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
+              {NAV_LINKS.map((link) => {
+                const isProjectsMenu = link.href === '/projects';
+                const projectsExpanded = openDropdown === link.href;
+
+                return (
+                  <li key={link.href}>
+                    {isProjectsMenu ? (
+                      <button
+                        type="button"
+                        onClick={() => setOpenDropdown(projectsExpanded ? null : link.href)}
+                        className={cn('flex min-h-12 w-full items-center justify-between rounded-xl px-4 py-3 text-left text-base font-medium', isGroupActive(link) ? 'bg-blue-50 text-blue-700' : 'text-navy-700 hover:bg-secondary')}
+                        aria-expanded={projectsExpanded}
+                      >
+                        {link.label}<ChevronDown className={cn('h-4 w-4 transition-transform', projectsExpanded && 'rotate-180')} />
+                      </button>
+                    ) : (
+                      <Link href={link.href} className={cn('flex min-h-12 items-center justify-between rounded-xl px-4 py-3 text-base font-medium', isActive(link.href) ? 'bg-blue-50 text-blue-700' : 'text-navy-700 hover:bg-secondary')}>
+                        {link.label}<ArrowUpRight className="h-4 w-4 opacity-50" />
+                      </Link>
+                    )}
+                    {link.children && (!isProjectsMenu || projectsExpanded) && (
+                      <ul className="ml-4 border-l border-border pl-3">
+                        {link.children.map((child) => (
+                          <li key={child.href}>
+                            {child.external ? (
+                              <a href={child.href} target="_blank" rel="noreferrer" className="flex min-h-11 items-center justify-between rounded-lg px-3 py-2 text-sm text-muted-foreground hover:text-navy-900">{child.label}<ArrowUpRight className="h-3.5 w-3.5" /></a>
+                            ) : (
+                              <Link href={child.href} className="flex min-h-11 items-center rounded-lg px-3 py-2 text-sm text-muted-foreground hover:text-navy-900">{child.label}</Link>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
             <Link href="/contact" className="mt-6 flex min-h-12 items-center justify-center gap-2 rounded-full bg-[linear-gradient(to_bottom,#3a3f5c_0%,#1e2033_100%)] px-5 py-3 font-semibold text-white">
               Get a Business Solution <ArrowUpRight className="h-4 w-4" />

@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import { Navbar } from '@/components/navbar/navbar';
 import { Footer } from '@/components/footer/footer';
+import { FloatingWhatsApp } from '@/components/floating-whatsapp/floating-whatsapp';
 import { SITE_URL } from '@/lib/site';
 
 const inter = Inter({
@@ -46,9 +47,9 @@ export const metadata: Metadata = {
       'Shital AI LLP builds custom business software, AI solutions, and automation systems that help companies work smarter, operate efficiently, and grow.',
     images: [
       {
-        url: '/images/brand/Company_logo_transparent.png',
-        width: 981,
-        height: 202,
+        url: '/images/brand/company_new_logo.jpeg',
+        width: 1600,
+        height: 900,
         alt: 'Shital AI LLP official logo',
       },
     ],
@@ -58,7 +59,7 @@ export const metadata: Metadata = {
     title: 'Shital AI LLP | Business Software & AI Solutions',
     description:
       'Shital AI LLP builds custom business software, AI solutions, and automation systems that help companies work smarter, operate efficiently, and grow.',
-    images: ['/images/brand/Company_logo_transparent.png'],
+    images: ['/images/brand/company_new_logo.jpeg'],
   },
   robots: {
     index: true,
@@ -95,6 +96,7 @@ export default function RootLayout({
         <Navbar />
         <main id="main-content">{children}</main>
         <Footer />
+        <FloatingWhatsApp />
       </body>
     </html>
   );

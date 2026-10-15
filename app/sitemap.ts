@@ -11,6 +11,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/products/telyxan',
     '/industries',
     '/projects',
+    '/projects/telyxan',
+    '/projects/hotel-os',
+    '/projects/nirantar',
+    '/projects/voice-cloning',
+    '/projects/ebook-generator',
     '/about',
     '/contact',
   ];
